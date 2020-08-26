@@ -1,0 +1,26 @@
+version: "3"
+services:
+  clc-kitchen-app:
+    build: clc-kitchen-app
+    ports:
+      - 8080:8080
+    environment:
+      - MYSQL_DB=kitchen-dev
+    networks:
+      - clc-spring-mvc
+  db:
+    image: clc-mariadb
+    restart: always
+    secrets:
+      - db-password
+    volumes:
+      - db-data:/var/lib/mysql/data
+    networks:
+      - clc-spring-mvc
+    environment:
+      - MYSQL_DB=kitchen-app
+      - MYSQL_ROOT_PASSWORD=admin
+volumes:
+  db-data:
+networks:
+  clc-spring-mvc:
